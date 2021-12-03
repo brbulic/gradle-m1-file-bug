@@ -1,0 +1,29 @@
+apply plugin: 'java'
+sourceCompatibility = 11
+version = '0.1.0' 
+
+repositories {
+    mavenCentral()
+}
+
+task krc() {
+    def path = 'build/model'
+    def outputDir = new File(path)
+    outputs.dir(outputDir)
+    def outputFile = null
+    doFirst {
+        outputFile = new File(outputDir, 'modelClasses.txt')
+        outputFile.setWritable(true)
+        delete outputDir
+        mkdir outputDir
+        if (outputFile.exists()) {
+            outputFile.delete()
+        }
+        project.exec {
+            commandLine('chmod',  'a+rwx', 'build/model')
+        }
+    }
+    doLast {
+        outputFile.text = "JEEEEE <<<< EOF"
+    }
+}
